@@ -1,0 +1,38 @@
+name: Run Selenium Test
+
+on:
+  push:
+    branches:
+      - main  # Hoặc nhánh bạn muốn chạy workflow khi có thay đổi
+  pull_request:
+    branches:
+      - main  # Workflow sẽ chạy khi có Pull Request vào nhánh chính
+
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest  # Chạy trên môi trường Ubuntu
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Lấy mã nguồn từ GitHub repository
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # Chọn phiên bản Python bạn muốn sử dụng
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install selenium  # Cài đặt Selenium
+
+    - name: Install Chromium and ChromeDriver
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y chromium-browser chromium-chromedriver
+        sudo apt-get install -y xvfb  # Cài đặt Xvfb cho chế độ headless
+
+    - name: Run Selenium tests
+      run: |
+        # Cấu hình môi trường cho Xvfb và chạy script Python
+        DISPLAY=:99 python your_script.py  # Đảm bảo thay 'your_script.py' bằng tên file của bạn
