@@ -1,6 +1,10 @@
 name: Run Selenium Test
 
 on:
+  schedule:
+    # Chạy vào lúc 6h sáng và 12h trưa mỗi ngày (theo múi giờ GMT+7)
+    - cron: '0 23 * * *'  # 6h sáng (UTC 23:00)
+    - cron: '0 5 * * *'   # 12h trưa (UTC 05:00)
   push:
     branches:
       - main  # Hoặc nhánh bạn muốn chạy workflow khi có thay đổi
